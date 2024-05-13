@@ -7,12 +7,10 @@ export default function Menu() {
         <Link href="/">Home</Link>
       </li>
       <li>
-        <Link href="/sobre@empresa">Sobre</Link>
+        <Link href="/sobre">Sobre</Link>
       </li>
       <li>
-        <Link href="/contato" prefetch={false}>
-          Contato
-        </Link>
+        <Link href="/imc">IMC</Link>
       </li>
     </ul>
   )
