@@ -1,5 +1,7 @@
 'use client'
 
+import { login } from '@/actions/login'
+
 export default function Login() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -7,15 +9,7 @@ export default function Login() {
     const username = event.currentTarget.username.value
     const password = event.currentTarget.password.value
 
-    const response = await fetch('https://api.origamid.online/conta/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    })
-
-    if (response.ok) window.location.href = '/'
+    await login(username, password)
   }
 
   return (
