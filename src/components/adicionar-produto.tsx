@@ -1,28 +1,27 @@
 'use client'
 
 import { adicionarProduto } from '@/actions/adicionar-produto'
-import { Produto } from '@/app/produtos/page'
-import React from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
 
-export interface AdicionarProdutoProps {}
+function Button() {
+  const status = useFormStatus()
+  console.log(status.pending)
+  return (
+    <button type="submit" disabled={status.pending}>
+      Adicionar
+    </button>
+  )
+}
 
-export default function AdicionarProduto(props: AdicionarProdutoProps) {
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const data: Produto = {
-      nome: event.currentTarget.nome.value,
-      descricao: event.currentTarget.descricao.value,
-      preco: Number(event.currentTarget.preco.value),
-      estoque: Number(event.currentTarget.estoque.value),
-      importado: event.currentTarget.importado.value.checked ? 1 : 0
-    }
-    await adicionarProduto(data)
+export default function AdicionarProduto() {
+  const [state, formAction] = useFormState(adicionarProduto, {
+    errors: []
+  })
 
-    console.log(data)
-  }
+  console.log(state)
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form action={formAction}>
       <label htmlFor="nome">Nome</label>
       <input type="text" id="nome" name="nome" />
       <label htmlFor="preco">Preço</label>
@@ -32,10 +31,15 @@ export default function AdicionarProduto(props: AdicionarProdutoProps) {
       <label htmlFor="estoque">Estoque</label>
       <input type="number" id="estoque" name="estoque" />
       <label htmlFor="importado">
-        {' '}
-        <input type="checkbox" id="importado" name="importado" /> Importado
+        <input type="checkbox" id="importado" name="importado" />
+        Importado
       </label>
-      <button type="submit">Adicionar</button>
+      {state.errors.map((error, index) => (
+        <p style={{ color: 'red' }} key={index}>
+          {error}
+        </p>
+      ))}
+      <Button />
     </form>
   )
 }
