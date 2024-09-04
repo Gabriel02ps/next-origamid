@@ -10,10 +10,11 @@ export type Produto = {
 export default async function ProdutosLista() {
   let produtos: Produto[] = []
   try {
-    const response = await fetch('https://api.origamid.online/produtoss', {
-      next: {
-        revalidate: 5
-      }
+    const response = await fetch('https://api.origamid.online/produtos', {
+      cache: 'no-store'
+      // next: {
+      //   revalidate: 5
+      // }
     })
     if (!response.ok) throw new Error('Erro ao carregar os produtos.')
 
